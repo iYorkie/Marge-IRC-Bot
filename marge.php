@@ -20,19 +20,7 @@ include "config.php";
 		}
 		function main()
 		{
-	$mask = str_replace(':', '', $this->ex[0]);
-	$host = split('@', $this->ex[0]);
-	$host = $host[1];
-	$chan = $this->ex[2];
-	$nick = split('!', $this->ex[0]);
-	$nick = split(':', $nick[0]);
-	$nick = $nick[1];
-	$numeric = $this->ex[1];
-	$message = split($this->ex[2].' :', $data);
-	$message = $message[1];
-	$year = date('Y');
-	$month = date('m');
-	$cmd = strtolower(str_replace(":", "", $this->ex[3]));
+	
 
 			global $config;
 			while (true)
@@ -45,6 +33,19 @@ include "config.php";
 				$data = fgets($this->socket, 4096);
 				flush();
 				$this->ex = explode(' ', $data);
+				$mask = str_replace(':', '', $this->ex[0]);
+	$host = split('@', $this->ex[0]);
+	$host = $host[1];
+	$chan = $this->ex[2];
+	$nick = split('!', $this->ex[0]);
+	$nick = split(':', $nick[0]);
+	$nick = $nick[1];
+	$numeric = $this->ex[1];
+	$message = split($this->ex[2].' :', $data);
+	$message = $message[1];
+	$year = date('Y');
+	$month = date('m');
+	$cmd = strtolower(str_replace(":", "", $this->ex[3]));
 
 				foreach ($this->ex as &$trim)
 				{
