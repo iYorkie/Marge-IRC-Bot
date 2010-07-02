@@ -1,0 +1,2 @@
+php marge.php >/dev/null 2>&1 &
+echo "Started Marge."
