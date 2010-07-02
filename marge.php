@@ -250,7 +250,7 @@ if (strtolower($this->ex[3]) == ':!join' && strtolower($this->ex[2]) == strtolow
 if (strtolower($this->ex[3]) == ':!part' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
   $partchan = split($this->ex[3].' ', $data);
   $partchan = trim($partchan[1]);
-   $this->send_data('JOIN', ':'.$partchan.'');
+   $this->send_data('PART', ':'.$partchan.'');
 }
 if (strtolower($this->ex[3]) == ':!qdbdel' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
 $chan = $this->ex[2];
