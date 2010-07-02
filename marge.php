@@ -228,23 +228,7 @@ if (strtolower($this->ex[3]) == ':!restart' && strtolower($this->ex[2]) == strto
 		}
 	}
 
-if (strtolower($this->ex[3]) == ':!autojoin' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
-              $chan = $this->ex[2];
-		$fh = fopen($this->directory.'autojoin_'.$config['server'].'.txt', 'r');
-		$aj = fread($fh, filesize($this->directory.'autojoin_'.$config['server'].'.txt'));
-		fclose($fh);
-		$aj = explode(' ', $aj);
-		$aj = $aj[0];
 
-					$channelList = split($this->ex[3].' ', $data);
-					$channelList = $channelList[1].','.$aj;
-					$fh = fopen($this->directory.'autojoin_'.$config['server'].'.txt', 'w');
-					fwrite($fh, $channelList);
-					fclose($fh);
-					$this->send_data('JOIN', $channelList);
-					$this->send_data('PRIVMSG', $chan.' :Autojoin list has been updated.');
-	
-				}
 
 if (strtolower($this->ex[3]) == ':!identify' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
    $this->send_data('PRIVMSG', 'NickServ :identify '.$config['password'].'');
@@ -257,6 +241,11 @@ if (strtolower($this->ex[3]) == ':!nick' && strtolower($this->ex[2]) == strtolow
   $newnick = split($this->ex[3].' ', $data);
   $newnick = trim($newnick[1]);
    $this->send_data('NICK', ':'.$newnick.'');
+}
+if (strtolower($this->ex[3]) == ':!join' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
+  $joinchan = split($this->ex[3].' ', $data);
+  $joinchan = trim($joinchan[1]);
+   $this->send_data('JOIN', ':'.$joinchan.'');
 }
 if (strtolower($this->ex[3]) == ':!qdbdel' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
 $chan = $this->ex[2];
