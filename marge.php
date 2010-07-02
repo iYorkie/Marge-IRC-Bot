@@ -32,6 +32,8 @@ include "config.php";
 	$message = $message[1];
 	$year = date('Y');
 	$month = date('m');
+	$cmd = strtolower(str_replace(":", "", $this->ex[3]));
+
 			global $config;
 			while (true)
 			{
@@ -63,7 +65,7 @@ include "config.php";
                             }
 
         
-                            if ($this->ex[3] == ':!uptime') {
+                            if ($cmd == '!uptime') {
                             $output = shell_exec('uptime');
                             $output = trim($output);
                             $chan = $this->ex[2];
@@ -71,7 +73,7 @@ include "config.php";
 
                             }
 
-                           if ($this->ex[3] == ':!sha256hash') {
+                           if ($cmd == '!sha256hash') {
                             $password = split($this->ex[3].' ', $data);
 				$password = trim($password[1]);
                             $hashpass = hash('sha256', $password);
@@ -80,7 +82,7 @@ include "config.php";
 
                             }
 
-                            if ($this->ex[3] == ':!md5hash') {
+                            if ($cmd == '!md5hash') {
                             $password = split($this->ex[3].' ', $data);
 				$password = trim($password[1]);
                             $hashpass = hash('md5', $password);
@@ -89,7 +91,7 @@ include "config.php";
 
                             }
 
-                             if ($this->ex[3] == ':!sha1hash') {
+                             if ($cmd == '!sha1hash') {
                             $password = split($this->ex[3].' ', $data);
 				$password = trim($password[1]);
                             $hashpass = hash('sha1', $password);
@@ -99,7 +101,7 @@ include "config.php";
                             }
 
 
-                            if ($this->ex[3] == ':sha256hash') {
+                            if ($cmd == 'sha256hash') {
                             $password = split($this->ex[3].' ', $data);
 				$password = trim($password[1]);
                             $hashpass = hash('sha256', $password);
@@ -110,7 +112,7 @@ include "config.php";
 
                             }
 
-                            if ($this->ex[3] == ':md5hash') {
+                            if ($cmd == 'md5hash') {
                             $password = split($this->ex[3].' ', $data);
 				$password = trim($password[1]);
                             $hashpass = hash('md5', $password);
@@ -121,7 +123,7 @@ include "config.php";
 
                             }
 
-                             if ($this->ex[3] == ':sha1hash') {
+                             if ($cmd == 'sha1hash') {
                             $password = split($this->ex[3].' ', $data);
 				$password = trim($password[1]);
                             $hashpass = hash('sha1', $password);
@@ -132,7 +134,7 @@ include "config.php";
 
                             }
 
-if (strtolower($this->ex[3]) == ':'.$config['prefix'].'dns') {
+if ($cmd == $config['prefix'].'dns') {
               $chan = $this->ex[2];
 		if (isset($this->ex[4])) {
 			if (is_numeric(str_replace('.', '', $this->ex[4]))) {
@@ -152,14 +154,14 @@ if (strtolower($this->ex[3]) == ':'.$config['prefix'].'dns') {
 		}
 	}
 
-if (strtolower($this->ex[3]) == ':!restart' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
+if ($cmd == '!restart' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
 				$this->send_data('QUIT', ':Restart has been ordered. Restarting...');
 				sleep(1);
 				$output = shell_exec('php marge.php && kill '.getmypid());
          
 			}
 
-	if (strtolower($this->ex[3]) == ':'.$config['prefix'].'qdbadd') {
+	if ($cmd == $config['prefix'].'qdbadd') {
 		$quote = split(' :!qdbadd ', $data);
 		$quote = $quote[1];
               $chan = $this->ex[2];
@@ -181,7 +183,7 @@ if (strtolower($this->ex[3]) == ':!restart' && strtolower($this->ex[2]) == strto
 		}
 	}
 
-	if (strtolower($this->ex[3]) == ':'.$config['prefix'].'qdb') {
+	if ($cmd == $config['prefix'].'qdb') {
 		/* - */
 		$fh = fopen($this->directory."quotenum.txt", 'r');
               $chan = $this->ex[2];
@@ -202,7 +204,7 @@ if (strtolower($this->ex[3]) == ':!restart' && strtolower($this->ex[2]) == strto
 		}
 	}
 
-	if (strtolower($this->ex[3]) == ':'.$config['prefix'].'qdbtotal') {
+	if ($cmd == $config['prefix'].'qdbtotal') {
               $chan = $this->ex[2];
 		$fh = fopen($this->directory."quotenum.txt", 'r');
 		$cur_quotenum = fread($fh, filesize($this->directory."quotenum.txt"));
@@ -210,7 +212,7 @@ if (strtolower($this->ex[3]) == ':!restart' && strtolower($this->ex[2]) == strto
 		$this->send_data('PRIVMSG', $chan.' :There are '.trim($cur_quotenum).' quote(s) on this system so far.');
 	}
 
-	if (strtolower($this->ex[3]) == ':'.$config['prefix'].'randqdb') {
+	if ($cmd == $config['prefix'].'randqdb') {
               $chan = $this->ex[2];
 		$fh = fopen($this->directory."quotenum.txt", 'r');
 		$cur_quotenum = fread($fh, filesize($this->directory."quotenum.txt"));
@@ -230,29 +232,29 @@ if (strtolower($this->ex[3]) == ':!restart' && strtolower($this->ex[2]) == strto
 
 
 
-if (strtolower($this->ex[3]) == ':!identify' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
+if ($cmd == '!identify' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
    $this->send_data('PRIVMSG', 'NickServ :identify '.$config['password'].'');
 }
-if (strtolower($this->ex[3]) == ':!shutdown' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
+if ($cmd == '!shutdown' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
    $this->send_data('QUIT', ':'.$config['quitmessage'].'');
    die("Shutdown command has been issued from IRC. Exiting...");
 }
-if (strtolower($this->ex[3]) == ':!nick' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
+if ($cmd == '!nick' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
   $newnick = split($this->ex[3].' ', $data);
   $newnick = trim($newnick[1]);
    $this->send_data('NICK', ':'.$newnick.'');
 }
-if (strtolower($this->ex[3]) == ':!join' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
+if ($cmd == '!join' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
   $joinchan = split($this->ex[3].' ', $data);
   $joinchan = trim($joinchan[1]);
    $this->send_data('JOIN', ':'.$joinchan.'');
 }
-if (strtolower($this->ex[3]) == ':!part' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
+if ($cmd == '!part' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
   $partchan = split($this->ex[3].' ', $data);
   $partchan = trim($partchan[1]);
    $this->send_data('PART', ':'.$partchan.'');
 }
-if (strtolower($this->ex[3]) == ':!qdbdel' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
+if ($cmd == '!qdbdel' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
 $chan = $this->ex[2];
 $cur_quotenum = fread($fh, filesize($this->directory."quotenum.txt")) - 1;
 unlink($this->directory."quote_".$this->ex[4].".txt");
