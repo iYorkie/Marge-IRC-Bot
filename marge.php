@@ -247,6 +247,11 @@ if (strtolower($this->ex[3]) == ':!join' && strtolower($this->ex[2]) == strtolow
   $joinchan = trim($joinchan[1]);
    $this->send_data('JOIN', ':'.$joinchan.'');
 }
+if (strtolower($this->ex[3]) == ':!part' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
+  $partchan = split($this->ex[3].' ', $data);
+  $partchan = trim($partchan[1]);
+   $this->send_data('JOIN', ':'.$partchan.'');
+}
 if (strtolower($this->ex[3]) == ':!qdbdel' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
 $chan = $this->ex[2];
 $cur_quotenum = fread($fh, filesize($this->directory."quotenum.txt")) - 1;
