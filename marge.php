@@ -155,7 +155,7 @@ if (strtolower($this->ex[3]) == ':'.$config['prefix'].'dns') {
 if (strtolower($this->ex[3]) == ':!restart' && strtolower($this->ex[2]) == strtolower($config['controlchan'])) {
 				$this->send_data('QUIT', ':Restart has been ordered. Restarting...');
 				sleep(1);
-				$output = shell_exec('./Marge && kill '.getmypid());
+				$output = shell_exec('php marge.php && kill '.getmypid());
          
 			}
 
